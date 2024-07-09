@@ -1,0 +1,25 @@
+BBBBBBBBBBBBBBBBB                                                     AAA                                                                                   tttt            iiii          tttt
+B::::::::::::::::B                                                   A:::A                                                                               ttt:::t           i::::i      ttt:::t
+B::::::BBBBBB:::::B                                                 A:::::A                                                                              t:::::t            iiii       t:::::t
+BB:::::B     B:::::B                                               A:::::::A                                                                             t:::::t                       t:::::t
+  B::::B     B:::::B   ooooooooooo   nnnn  nnnnnnnn               A:::::::::A          ppppp   ppppppppp   ppppp   ppppppppp       eeeeeeeeeeee    ttttttt:::::ttttttt    iiiiiiittttttt:::::ttttttt
+  B::::B     B:::::B oo:::::::::::oo n:::nn::::::::nn            A:::::A:::::A         p::::ppp:::::::::p  p::::ppp:::::::::p    ee::::::::::::ee  t:::::::::::::::::t    i:::::it:::::::::::::::::t
+  B::::BBBBBB:::::B o:::::::::::::::on::::::::::::::nn          A:::::A A:::::A        p:::::::::::::::::p p:::::::::::::::::p  e::::::eeeee:::::eet:::::::::::::::::t     i::::it:::::::::::::::::t
+  B:::::::::::::BB  o:::::ooooo:::::onn:::::::::::::::n        A:::::A   A:::::A       pp::::::ppppp::::::ppp::::::ppppp::::::pe::::::e     e:::::etttttt:::::::tttttt     i::::itttttt:::::::tttttt
+  B::::BBBBBB:::::B o::::o     o::::o  n:::::nnnn:::::n       A:::::A     A:::::A       p:::::p     p:::::p p:::::p     p:::::pe:::::::eeeee::::::e      t:::::t           i::::i      t:::::t
+  B::::B     B:::::Bo::::o     o::::o  n::::n    n::::n      A:::::AAAAAAAAA:::::A      p:::::p     p:::::p p:::::p     p:::::pe:::::::::::::::::e       t:::::t           i::::i      t:::::t
+  B::::B     B:::::Bo::::o     o::::o  n::::n    n::::n     A:::::::::::::::::::::A     p:::::p     p:::::p p:::::p     p:::::pe::::::eeeeeeeeeee        t:::::t           i::::i      t:::::t
+  B::::B     B:::::Bo::::o     o::::o  n::::n    n::::n    A:::::AAAAAAAAAAAAA:::::A    p:::::p    p::::::p p:::::p    p::::::pe:::::::e                 t:::::t    tttttt i::::i      t:::::t    tttttt
+BB:::::BBBBBB::::::Bo:::::ooooo:::::o  n::::n    n::::n   A:::::A             A:::::A   p:::::ppppp:::::::p p:::::ppppp:::::::pe::::::::e                t::::::tttt:::::ti::::::i     t::::::tttt:::::t
+B:::::::::::::::::B o:::::::::::::::o  n::::n    n::::n  A:::::A               A:::::A  p::::::::::::::::p  p::::::::::::::::p  e::::::::eeeeeeee        tt::::::::::::::ti::::::i     tt::::::::::::::t
+B::::::::::::::::B   oo:::::::::::oo   n::::n    n::::n A:::::A                 A:::::A p::::::::::::::pp   p::::::::::::::pp    ee:::::::::::::e          tt:::::::::::tti::::::i       tt:::::::::::tt
+BBBBBBBBBBBBBBBBB      ooooooooooo     nnnnnn    nnnnnnAAAAAAA                   AAAAAAAp::::::pppppppp     p::::::pppppppp        eeeeeeeeeeeeee            ttttttttttt  iiiiiiii         ttttttttttt
+                                                                                        p:::::p             p:::::p
+                                                                                        p:::::p             p:::::p
+                                                                                       p:::::::p           p:::::::p
+                                                                                       p:::::::p           p:::::::p
+                                                                                       p:::::::p           p:::::::p
+                                                                                       ppppppppp           ppppppppp
+
+${application.title} ${application.version}
+Powered by Spring Boot ${spring-boot.version}

@@ -1,0 +1,334 @@
+/* Estilos generales del panel de administración */
+.admin-panel-container {
+  margin: 5rem 2rem 2rem;
+  padding-bottom: 8rem;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 5rem;
+  font-size: 3.6rem;
+  font-weight: bold;
+
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5rem;
+}
+
+.actions .btn {
+  width: 15rem;
+  height: 15rem;
+  padding: 2rem;
+  border: none;
+  cursor: pointer;
+  color: #ad793f;
+  font-size: large;
+  font-weight: 600;
+
+  transition: background-color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+}
+
+.create-btn {
+  margin-left: 20px;
+}
+
+.create-btn:hover {
+  background-color:#731627;
+}
+
+.actions .btn.active {
+  background-color: #731627;
+}
+
+.recetas-table {
+  width: calc(100% - 20rem);
+  margin: 0 10rem;
+  border-collapse: collapse;
+}
+
+.recetas-table th, .recetas-table td {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.recetas-table th {
+  background-color: #f2f2f2;
+}
+
+.recetas-table img {
+  display: block;
+  max-width: 10rem;
+  height: auto;
+}
+
+.action-buttons {
+  white-space: nowrap;
+}
+
+.action-buttons .btn {
+  margin-right: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+  font-size: 1.4rem;
+  transition: background-color 0.3s;
+}
+
+.edit-btn {
+  background-color: #007bff;
+}
+
+.edit-btn:hover {
+  background-color: #0056b3;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+.categorias-container {
+  margin-top: 4rem;
+}
+
+.categorias-title {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.categorias {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.categoria-card {
+  width: 10rem;
+  height: 8rem;
+  background-color: #f2f2f2;
+  font-weight: 600;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+}
+.categoria-card.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.categoria-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.mostrar-todas {
+  width: 10rem;
+  height: 8rem;
+  background-color: #007bff;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Modal Background Overlay */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 60rem;
+  position: relative;
+}
+
+/* Form Wrapper */
+.crear-receta-container .form-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Form Title */
+.crear-receta-container .title {
+  margin-bottom: 2rem;
+}
+
+/* Form Group */
+.crear-receta-container .form-group {
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+/* Form Control */
+.crear-receta-container .form-control {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+}
+
+/* Form Actions */
+.crear-receta-container .form-actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Button Styles */
+.crear-receta-container .btn {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.crear-receta-container .cancel-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.crear-receta-container .submit-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+/* Error Text */
+.crear-receta-container .error-text {
+  color: red;
+  font-size: 1.2rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+}
+
+.page-number {
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  margin: 0 5rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.page-number:hover {
+  background-color: #f0f0f0;
+}
+
+.page-number.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+/* Otros estilos existentes */
+
+/* Estilos personalizados para el carrusel */
+.carousel .control-arrow {
+  background: rgba(0, 0, 0, 0.8); /* Fondo menos transparente */
+  border-radius: 50%;
+  width: 5rem;
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1; /* Asegura que las flechas sean visibles */
+}
+
+.carousel .control-arrow:before {
+  color: white;
+  font-size: 3rem;
+}
+
+.carousel .control-arrow:hover {
+  background: rgba(0, 0, 0, 1); /* Fondo completamente oscuro al pasar el cursor */
+}
+
+.carousel-container {
+  overflow: hidden; /* Evita que las imágenes se desborden del contenedor */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Centra verticalmente el contenido */
+}
+
+.carousel .slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none; /* Elimina el fondo por defecto */
+}
+
+.carousel .carousel-image {
+  max-height: 15rem; /* Ajusta la altura máxima de las imágenes */
+  object-fit: cover; /* Mantiene las proporciones de la imagen */
+}
+
+.no-image-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 15rem;
+  height: 15rem;
+  background-color: #f0f0f0;
+  color: #999;
+  font-size: 1.4rem;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 0.8rem;
+}
+
+.imagenes-column {
+  max-width: 15rem; /* Define el ancho máximo deseado para la columna de imágenes */
+}
+
+.carousel-container {
+  margin: 0 auto; /* Centra horizontalmente el contenedor del carrusel */
+}
+
+.carousel .slide img {
+  display: block;
+  margin: 0 auto; /* Centra las imágenes dentro de las diapositivas */
+}
+
+.carousel .carousel-status {
+  display: none; /* Oculta el estado del carrusel (por ejemplo, "1 of 3") */
+}

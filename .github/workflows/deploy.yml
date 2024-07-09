@@ -1,0 +1,159 @@
+name: CI/CD Pipeline
+
+on:
+  pull_request_target:
+    types:
+      - closed
+    branches:
+      - develop
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  build-and-deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Set environment variables for the build
+    - name: Set environment variables
+      run: |
+        echo "BD_URL=${{ secrets.BD_URL }}" >> $GITHUB_ENV
+        echo "BD_USER=${{ secrets.BD_USER }}" >> $GITHUB_ENV
+        echo "BD_PASS=${{ secrets.BD_PASS }}" >> $GITHUB_ENV
+        echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
+        echo "MAIL_PASS=${{ secrets.MAIL_PASS }}" >> $GITHUB_ENV
+        echo "AWS_EC2_HOST=${{ secrets.AWS_EC2_HOST }}" >> $GITHUB_ENV
+        echo "VITE_apiKey=${{ secrets.VITE_apiKey }}" >> $GITHUB_ENV
+        echo "VITE_authDomain=${{ secrets.VITE_authDomain }}" >> $GITHUB_ENV
+        echo "VITE_projectId=${{ secrets.VITE_projectId }}" >> $GITHUB_ENV
+        echo "VITE_storageBucket=${{ secrets.VITE_storageBucket }}" >> $GITHUB_ENV
+        echo "VITE_messagingSenderId=${{ secrets.VITE_messagingSenderId }}" >> $GITHUB_ENV
+        echo "VITE_appId=${{ secrets.VITE_appId }}" >> $GITHUB_ENV
+
+    # Replace environment variables in application.properties
+    - name: Replace environment variables in application.properties
+      run: |
+        sed -i 's|\${BD_URL}|'$BD_URL'|g' BACK/src/main/resources/application.properties
+        sed -i 's|\${BD_USER}|'$BD_USER'|g' BACK/src/main/resources/application.properties
+        sed -i 's|\${BD_PASS}|'$BD_PASS'|g' BACK/src/main/resources/application.properties
+        sed -i 's|\${JWT_SECRET}|'$JWT_SECRET'|g' BACK/src/main/resources/application.properties
+        sed -i 's|\${MAIL_PASS}|'$MAIL_PASS'|g' BACK/src/main/resources/application.properties
+
+    # Set up Java
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    # Build Backend with environment variables
+    - name: Build backend
+      run: |
+        cd BACK
+        mvn clean package
+
+    # Verify the jar file exists
+    - name: Verify the jar file
+      run: |
+        ls -l BACK/target/
+
+    # Deploy to EC2
+    - name: Deploy to EC2
+      env:
+        KEY_FILE: ${{ secrets.AWS_KEY_FILE }}
+        HOST: ${{ secrets.AWS_EC2_HOST }}
+        USER: ${{ secrets.AWS_EC2_USER }}
+      run: |
+        echo "$KEY_FILE" | base64 -d > key.pem
+        chmod 600 key.pem
+        scp -o StrictHostKeyChecking=no -i key.pem BACK/target/bonappetitApi-0.0.1-SNAPSHOT.jar $USER@$HOST:/home/ec2-user/
+        ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST << 'EOF'
+          set -e
+
+          # Intentar detener el servicio
+          if systemctl is-active --quiet your-app.service; then
+            sudo systemctl stop your-app.service || true
+          fi
+
+          # Esperar a que el puerto 8080 se libere, con un límite de tiempo
+          TIMEOUT=60
+          INTERVAL=5
+          ELAPSED=0
+
+          while sudo lsof -i :8080; do
+            if [ "$ELAPSED" -ge "$TIMEOUT" ]; then
+              echo "El puerto 8080 no se liberó después de $TIMEOUT segundos."
+              exit 1
+            fi
+            echo "Esperando que el puerto 8080 se libere..."
+            sleep $INTERVAL
+            ELAPSED=$((ELAPSED + INTERVAL))
+          done
+
+          # Mover el nuevo archivo JAR
+          sudo mv /home/ec2-user/bonappetitApi-0.0.1-SNAPSHOT.jar /path/to/your/app/location/your-app.jar
+
+          # Iniciar el servicio nuevamente
+          sudo systemctl start your-app.service
+
+        EOF
+        rm key.pem
+
+    # Set up Node.js for frontend build
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+
+    # Replace API endpoint in config.js and show changes
+    - name: Replace and show API endpoint in config.js
+      run: |
+        sed -i 's|import.meta.env.VITE_API_URL|"http://'"$AWS_EC2_HOST"':8080"|g' FRONT/src/utils/config.js
+        echo "Updated config.js:"
+        cat FRONT/src/utils/config.js
+
+    # Replace API endpoint in axiosConfig.js and show changes
+    - name: Replace and show API endpoint in axiosConfig.js
+      run: |
+        sed -i 's|import.meta.env.VITE_API_URL|"http://'"$AWS_EC2_HOST"':8080"|g' FRONT/src/api/axiosConfig.js
+        echo "Updated axiosconfig.js:"
+        cat FRONT/src/api/axiosConfig.js
+
+    # Replace Firebase keys in firebase.js and show changes
+    - name: Replace firebase keys in firebase.js
+      run: |
+        sed -i 's|import.meta.env.VITE_apiKey|"'"$VITE_apiKey"'"|g' FRONT/src/api/firebase.js
+        sed -i 's|import.meta.env.VITE_authDomain|"'"$VITE_authDomain"'"|g' FRONT/src/api/firebase.js
+        sed -i 's|import.meta.env.VITE_projectId|"'"$VITE_projectId"'"|g' FRONT/src/api/firebase.js
+        sed -i 's|import.meta.env.VITE_storageBucket|"'"$VITE_storageBucket"'"|g' FRONT/src/api/firebase.js
+        sed -i 's|import.meta.env.VITE_messagingSenderId|"'"$VITE_messagingSenderId"'"|g' FRONT/src/api/firebase.js
+        sed -i 's|import.meta.env.VITE_appId|"'"$VITE_appId"'"|g' FRONT/src/api/firebase.js
+        echo "Updated firebase.js:"
+        cat FRONT/src/api/firebase.js
+
+    - name: Install dependencies
+      run: cd FRONT && npm install
+
+    - name: Build Frontend
+      env:
+        VITE_API_URL: ${{ secrets.VITE_API_URL }}
+      run: cd FRONT && npm run build
+
+    # Configure AWS credentials
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        role-to-assume: ${{ secrets.AWS_IAM_ROLE }}
+        aws-region: ${{ secrets.AWS_REGION }}
+        audience: sts.amazonaws.com
+
+    # Sync Frontend to S3
+    - name: Sync Frontend to S3
+      run: aws s3 sync FRONT/dist/ s3://${{ secrets.AWS_BUCKET_NAME }}/
